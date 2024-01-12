@@ -1,0 +1,19 @@
+{
+    "name": "sortviz",
+    "version-string": "0.1.0",
+    "maintainers": [
+        "Terens Tare"
+    ],
+    "license": "MIT",
+    "description": "A program that shows how common sorting algorithms work.",
+    "dependencies": [
+        "sdl2",
+        {
+            "name": "imgui",
+            "features": [
+                "sdl2-binding",
+                "sdl2-renderer-binding"
+            ]
+        }
+    ]
+}

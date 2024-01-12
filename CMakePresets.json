@@ -1,0 +1,447 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 25,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "base",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": {
+                    "value": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+                    "type": "FILEPATH"
+                }
+            },
+            "environment": {
+                "VCPKG_FEATURE_FLAGS": "manifests,binarycaching"
+            },
+            "warnings": {
+                "dev": false
+            }
+        },
+        {
+            "name": "x86",
+            "hidden": true,
+            "inherits": "base",
+            "architecture": {
+                "value": "x86"
+            },
+            "environment": {
+                "VCPKG_TARGET_ARCHITECTURE": "x86"
+            }
+        },
+        {
+            "name": "arm64",
+            "hidden": true,
+            "inherits": "base",
+            "architecture": {
+                "value": "arm64"
+            },
+            "environment": {
+                "VCPKG_TARGET_ARCHITECTURE": "arm64"
+            }
+        },
+        {
+            "name": "x64",
+            "hidden": true,
+            "inherits": "base",
+            "architecture": {
+                "value": "x64"
+            },
+            "environment": {
+                "VCPKG_TARGET_ARCHITECTURE": "x64"
+            }
+        },
+        {
+            "name": "vs_base",
+            "hidden": true,
+            "inherits": "base",
+            "architecture": {
+                "strategy": "set"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "intelliSenseOptions": {
+                        "additionalCompilerArgs": [
+                            "/DSOL_PRINT_ERRORS=1",
+                            "/DSOL_NO_EXCEPTIONS=1",
+                            "/DFMT_COMPILE_TIME_CHECKS=1",
+                            "/DJSON_NOEXCEPTION",
+                            "/W4",
+                            "/w14242",
+                            "/w14254",
+                            "/w14263",
+                            "/w14265",
+                            "/w14287",
+                            "/we4289",
+                            "/w14296",
+                            "/w14311",
+                            "/w14545",
+                            "/w14546",
+                            "/w14547",
+                            "/w14549",
+                            "/w14555",
+                            "/w14619",
+                            "/w14640",
+                            "/w14826",
+                            "/w14905",
+                            "/w14906",
+                            "/w14928"
+                        ]
+                    }
+                }
+            }
+        },
+        {
+            "name": "vs2019",
+            "hidden": true,
+            "inherits": "vs_base",
+            "generator": "Visual Studio 16 2019"
+        },
+        {
+            "name": "vs2019-x86",
+            "inherits": [
+                "vs2019",
+                "x86"
+            ],
+            "binaryDir": "${sourceDir}/build/x86",
+            "environment": {
+                "VCPKG_DEFAULT_TRIPLET": "x86-windows"
+            }
+        },
+        {
+            "name": "vs2019-arm64",
+            "inherits": [
+                "vs2019",
+                "arm64"
+            ],
+            "binaryDir": "${sourceDir}/build/arm64",
+            "environment": {
+                "VCPKG_DEFAULT_TRIPLET": "arm64-windows"
+            }
+        },
+        {
+            "name": "vs2019-x64",
+            "inherits": [
+                "vs2019",
+                "x64"
+            ],
+            "binaryDir": "${sourceDir}/build/x64",
+            "environment": {
+                "VCPKG_DEFAULT_TRIPLET": "x64-windows"
+            }
+        },
+        {
+            "name": "vs2022",
+            "hidden": true,
+            "inherits": "vs_base",
+            "generator": "Visual Studio 17 2022"
+        },
+        {
+            "name": "vs2022-x86",
+            "inherits": [
+                "vs2022",
+                "x86"
+            ],
+            "binaryDir": "${sourceDir}/build/x86",
+            "environment": {
+                "VCPKG_DEFAULT_TRIPLET": "x86-windows"
+            }
+        },
+        {
+            "name": "vs2022-arm64",
+            "inherits": [
+                "vs2022",
+                "arm64"
+            ],
+            "binaryDir": "${sourceDir}/build/arm64",
+            "environment": {
+                "VCPKG_DEFAULT_TRIPLET": "arm64-windows"
+            }
+        },
+        {
+            "name": "vs2022-x64",
+            "inherits": [
+                "vs2022",
+                "x64"
+            ],
+            "binaryDir": "${sourceDir}/build/x64",
+            "environment": {
+                "VCPKG_DEFAULT_TRIPLET": "x64-windows"
+            }
+        },
+        {
+            "name": "ninja",
+            "hidden": true,
+            "inherits": "base",
+            "generator": "Ninja Multi-Config",
+            "architecture": {
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl",
+                "CMAKE_CXX_COMPILER": "cl",
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+            }
+        },
+        {
+            "name": "ninja-x86",
+            "inherits": [
+                "ninja",
+                "x86"
+            ],
+            "binaryDir": "${sourceDir}/build/x86"
+        },
+        {
+            "name": "ninja-x64",
+            "inherits": [
+                "ninja",
+                "x64"
+            ],
+            "binaryDir": "${sourceDir}/build/x64"
+        },
+        {
+            "name": "xcode",
+            "inherits": "x64",
+            "generator": "XCode",
+            "architecture": {
+                "strategy": "set"
+            },
+            "environment": {
+                "VCPKG_DEFAULT_TRIPLET": "x64-osx"
+            },
+            "binaryDir": "${sourceDir}/build/x64",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "vs2019-x86-debug",
+            "configurePreset": "vs2019-x86",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs2019-x86-release",
+            "configurePreset": "vs2019-x86",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "vs2019-x86-minsizerel",
+            "configurePreset": "vs2019-x86",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "vs2019-x86-relwithdebinfo",
+            "configurePreset": "vs2019-x86",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "vs2019-arm64-debug",
+            "configurePreset": "vs2019-arm64",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs2019-arm64-release",
+            "configurePreset": "vs2019-arm64",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "vs2019-arm64-minsizerel",
+            "configurePreset": "vs2019-arm64",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "vs2019-arm64-relwithdebinfo",
+            "configurePreset": "vs2019-arm64",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "vs2019-x64-debug",
+            "configurePreset": "vs2019-x64",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs2019-x64-release",
+            "configurePreset": "vs2019-x64",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "vs2019-x64-minsizerel",
+            "configurePreset": "vs2019-x64",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "vs2019-x64-relwithdebinfo",
+            "configurePreset": "vs2019-x64",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "vs2022-x86-debug",
+            "configurePreset": "vs2022-x86",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs2022-x86-release",
+            "configurePreset": "vs2022-x86",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "vs2022-x86-minsizerel",
+            "configurePreset": "vs2022-x86",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "vs2022-x86-relwithdebinfo",
+            "configurePreset": "vs2022-x86",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "vs2022-arm64-debug",
+            "configurePreset": "vs2022-arm64",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs2022-arm64-release",
+            "configurePreset": "vs2022-arm64",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "vs2022-arm64-minsizerel",
+            "configurePreset": "vs2022-arm64",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "vs2022-arm64-relwithdebinfo",
+            "configurePreset": "vs2022-arm64",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "vs2022-x64-debug",
+            "configurePreset": "vs2022-x64",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "vs2022-x64-release",
+            "configurePreset": "vs2022-x64",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "vs2022-x64-minsizerel",
+            "configurePreset": "vs2022-x64",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "vs2022-x64-relwithdebinfo",
+            "configurePreset": "vs2022-x64",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "ninja-x86-debug",
+            "configurePreset": "ninja-x86",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "ninja-x86-release",
+            "configurePreset": "ninja-x86",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "ninja-x86-minsizerel",
+            "configurePreset": "ninja-x86",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "ninja-x86-relwithdebinfo",
+            "configurePreset": "ninja-x86",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "ninja-x64-debug",
+            "configurePreset": "ninja-x64",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "ninja-x64-release",
+            "configurePreset": "ninja-x64",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "ninja-x64-minsizerel",
+            "configurePreset": "ninja-x64",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "ninja-x64-relwithdebinfo",
+            "configurePreset": "ninja-x64",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        },
+        {
+            "name": "xcode-debug",
+            "configurePreset": "xcode",
+            "displayName": "Debug",
+            "configuration": "Debug"
+        },
+        {
+            "name": "xcode-release",
+            "configurePreset": "xcode",
+            "displayName": "Release",
+            "configuration": "Release"
+        },
+        {
+            "name": "xcode-minsizerel",
+            "configurePreset": "xcode",
+            "displayName": "MinSizeRel",
+            "configuration": "MinSizeRel"
+        },
+        {
+            "name": "xcode-relwithdebinfo",
+            "configurePreset": "xcode",
+            "displayName": "RelWithDebInfo",
+            "configuration": "RelWithDebInfo"
+        }
+    ]
+}
