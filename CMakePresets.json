@@ -71,10 +71,6 @@
                 "microsoft.com/VisualStudioSettings/CMake/1.0": {
                     "intelliSenseOptions": {
                         "additionalCompilerArgs": [
-                            "/DSOL_PRINT_ERRORS=1",
-                            "/DSOL_NO_EXCEPTIONS=1",
-                            "/DFMT_COMPILE_TIME_CHECKS=1",
-                            "/DJSON_NOEXCEPTION",
                             "/W4",
                             "/w14242",
                             "/w14254",

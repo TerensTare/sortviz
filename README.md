@@ -24,18 +24,22 @@ vcpkg install sdl2 imgui imgui[sdl2-binding] imgui[sdl2-renderer-binding] --trip
 
 ### 2. Configuring with CMake
 
-Create a folder named `build` from within the project and run the following command from within the folder:
+CMake needs to configure the project first before building, which can be done with the following command:
 
 ```sh
-# See `CMakePresets.json` for a list of available presets.
-# If you are using an IDE/editor, it should automatically list the compatible ones.
+# Presets are of format {gen}-{arch}, where {gen} and {arch} are as following:
+# {gen} - vs2019, vs2022 and ninja
+# {arch} - x86, arm64, x64
+# eg. to use Visual Studio 2022 to build in x64 mode, run `cmake --preset vs2022-x64`
+# Also, for macOS there is the preset xcode (so command would be `cmake --preset xcode`).
+# If you are using an IDE/editor, it should automatically list the compatible presets for you.
 # Remember to match the arch with the one you installed the vcpkg packages for.
-cmake .. --preset {my-preset}
+cmake --preset {my-preset}
 ```
 
 ### 3. Building the project
 
-To build, run the following command from **the project's folder, NOT `build`**:
+To build the project, run the following command:
 
 ```sh
 # See `CMakePresets.json` for a list of available presets.
@@ -49,7 +53,7 @@ The project should then be built and you should see where the executable file is
 
 ## License
 
-The code is licensed under the [MIT license](./LICENSE)
+The code is licensed under the [MIT license](./LICENSE).
 
 ## Contributing
 
